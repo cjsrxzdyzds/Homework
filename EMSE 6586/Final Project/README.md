@@ -2,6 +2,9 @@
 
 This project aims to restructure and analyze the Amazon Kindle reviews dataset, transforming it from its original nested JSON format into a normalized relational schema suitable for loading into a SQL database. This will facilitate efficient querying and aggregation to derive insights from the reviews data.
 
+## Project Type
+Database Translation – Restructuring and analyzing Amazon Kindle reviews dataset
+
 ## Dataset
 
 The dataset used is the Amazon Kindle reviews dataset in JSON format, available from Kaggle. It contains information about Kindle products, reviewers, and the reviews themselves.
