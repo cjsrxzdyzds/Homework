@@ -44,8 +44,8 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
 
 ## Contributors
 
-- Ying Liu
-- Jiaye Fang
+- Ying Liu @598790089
+- Jiaye Fang @cjsrxzdyzds
 
 ## License
 
