@@ -20,7 +20,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/kindle-reviews-analysis.git
+   git clone https://github.com/cjsrxzdyzds/Homework/tree/main/EMSE%206586/Final%20Project.git
    cd kindle-reviews-analysis
    ```
 
@@ -76,7 +76,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
    - Download the Kindle reviews JSON file from Kaggle and place it in the project directory.
    - Run the preprocessing script to format the JSON file:
      ```
-     python preprocess_json.py
+     python format.py
      ```
 
      This script will clean and format the JSON file, fixing any formatting errors and creating a new file named `kindle_reviews_formatted.json`.
@@ -95,7 +95,13 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
 
    Make sure the `kindle_reviews_formatted.json` file is accessible to the MySQL container.
 
-10. Configure the database connection in the `analysis.py` script:
+   ```
+   python load_json.py
+   ```
+
+   It can also help you load data into MySQL if the above query doesn't work.
+
+11. Configure the database connection in the `analysis.py` script:
     - Open the `analysis.py` file.
     - Modify the following variables with your database connection details:
       - `db_user`: MySQL database username
@@ -103,7 +109,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
       - `db_host`: MySQL database host (use the container name)
       - `db_name`: MySQL database name
 
-11. Run the analysis script:
+12. Run the analysis script:
     ```
     python analysis.py
     ```
@@ -127,6 +133,10 @@ Feel free to modify the analysis queries or add new ones based on your specific 
 
 ## Contributing
 
+Main Contributor: 
+- Ying Liu @598790089
+- Jiaye Fang @cjsrxzdyzds
+- 
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
 
 ## License
