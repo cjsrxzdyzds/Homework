@@ -43,7 +43,35 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
      - `unixReviewTime` (BIGINT)
      - `reviewTime` (VARCHAR)
 
-4. Configure the database connection:
+  The following is a sample table format:
+    ```
+   CREATE TABLE kindle_reviews (
+    reviewerID VARCHAR(255),
+    asin VARCHAR(255),
+    reviewerName VARCHAR(255),
+    helpful_positive INT,
+    helpful_negative INT,
+    reviewText TEXT,
+    overall FLOAT,
+    summary VARCHAR(255),
+    unixReviewTime BIGINT,
+    reviewTime VARCHAR(255)
+    );
+   ```
+
+   You may load the dataset to your database as follow:
+   ```
+    LOAD DATA INFILE '/var/lib/mysql-files/kindle_reviews_formatted.json' 
+    INTO TABLE kindle_reviews
+    FIELDS TERMINATED BY ',' 
+    ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    (reviewerID, asin, reviewerName, @helpful, reviewText, overall, summary, unixReviewTime, reviewTime)
+    SET helpful_positive = JSON_EXTRACT(@helpful, '$[0]'),
+    helpful_negative = JSON_EXTRACT(@helpful, '$[1]');
+   ```
+
+5. Configure the database connection:
    - Open the `analysis.py` file.
    - Modify the following variables with your database connection details:
      - `db_user`: MySQL database username
