@@ -151,19 +151,3 @@ This project is open-source and available under the [MIT License](https://openso
 ## Link to the Dataset
 
 https://www.kaggle.com/datasets/bharadwaj6/kindle-reviews/data
-## Contributors
-
-- Ying Liu @598790089
-- Jiaye Fang @cjsrxzdyzds
-
-## License
-
-This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
-
-## Acknowledgments
-
-- The Amazon Kindle reviews dataset is sourced from Kaggle.
-- Thanks to the open-source community for the libraries and tools used in this project.
-
-## Link to the Dataset
-https://www.kaggle.com/datasets/bharadwaj6/kindle-reviews/data
