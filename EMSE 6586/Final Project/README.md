@@ -19,17 +19,12 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
 
 ## Getting Started
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/your-username/kindle-reviews-analysis.git
-   ```
-
-2. Install the required Python libraries:
+1. Install the required Python libraries:
    ```
    pip install mysql-connector-python pandas
    ```
 
-3. Set up the MySQL database:
+2. Set up the MySQL database:
    - Create a MySQL database to store the Kindle reviews data.
    - Import the `kindle_reviews` table into the database. Make sure the table schema matches the following columns:
      - `reviewerID` (VARCHAR)
@@ -44,7 +39,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
      - `reviewTime` (VARCHAR)
 
   The following is a sample table format:
-    ```
+  ```
    CREATE TABLE kindle_reviews (
     reviewerID VARCHAR(255),
     asin VARCHAR(255),
@@ -57,7 +52,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
     unixReviewTime BIGINT,
     reviewTime VARCHAR(255)
     );
-   ```
+  ```
 
    You may load the dataset to your database as follow:
    ```
@@ -71,7 +66,7 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
     helpful_negative = JSON_EXTRACT(@helpful, '$[1]');
    ```
 
-5. Configure the database connection:
+3. Configure the database connection:
    - Open the `analysis.py` file.
    - Modify the following variables with your database connection details:
      - `db_user`: MySQL database username
