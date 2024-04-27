@@ -1,92 +1,118 @@
 # Amazon Kindle Reviews Analysis
 
-This project aims to restructure and analyze the Amazon Kindle reviews dataset, transforming it from its original nested JSON format into a normalized relational schema suitable for loading into a SQL database. This will facilitate efficient querying and aggregation to derive insights from the reviews data.
+This project aims to restructure and analyze the Amazon Kindle reviews dataset, transforming it from its original nested JSON format into a normalized relational schema suitable for loading into a MySQL database running in a Docker container. This will facilitate efficient querying and aggregation to derive insights from the reviews data.
 
 ## Project Type
 Database Translation – Restructuring and analyzing Amazon Kindle reviews dataset
 
 ## Dataset
-
 The dataset used is the Amazon Kindle reviews dataset in JSON format, available from Kaggle. It contains information about Kindle products, reviewers, and the reviews themselves.
 
 ## Prerequisites
-
+- Docker
+- Docker Compose
 - Python 3.x
-- MySQL database with the `kindle_reviews` table
 - Required Python libraries:
   - `mysql-connector-python`
   - `pandas`
 
 ## Getting Started
 
-1. Install the required Python libraries:
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/kindle-reviews-analysis.git
+   cd kindle-reviews-analysis
+   ```
+
+2. Install the required Python libraries:
    ```
    pip install mysql-connector-python pandas
    ```
 
-2. Set up the MySQL database:
-   - Create a MySQL database to store the Kindle reviews data.
-   - Import the `kindle_reviews` table into the database. Make sure the table schema matches the following columns:
-     - `reviewerID` (VARCHAR)
-     - `asin` (VARCHAR)
-     - `reviewerName` (VARCHAR)
-     - `helpful_positive` (INT)
-     - `helpful_negative` (INT)
-     - `reviewText` (TEXT)
-     - `overall` (FLOAT)
-     - `summary` (VARCHAR)
-     - `unixReviewTime` (BIGINT)
-     - `reviewTime` (VARCHAR)
+3. Build and start the MySQL database using Docker Compose:
+   ```
+   docker-compose up -d
+   ```
 
-  The following is a sample table format:
-  ```
+   This will start a MySQL container with the necessary configurations.
+
+4. Connect to the MySQL container:
+   ```
+   docker exec -it mysql-container bash
+   ```
+
+   Replace `mysql-container` with the actual name of your MySQL container.
+
+5. Inside the container, connect to the MySQL database:
+   ```
+   mysql -u root -p
+   ```
+
+   Enter the root password when prompted.
+
+6. Create the `kindle_reviews` database:
+   ```sql
+   CREATE DATABASE kindle_reviews;
+   USE kindle_reviews;
+   ```
+
+7. Create the `kindle_reviews` table:
+   ```sql
    CREATE TABLE kindle_reviews (
-    reviewerID VARCHAR(255),
-    asin VARCHAR(255),
-    reviewerName VARCHAR(255),
-    helpful_positive INT,
-    helpful_negative INT,
-    reviewText TEXT,
-    overall FLOAT,
-    summary VARCHAR(255),
-    unixReviewTime BIGINT,
-    reviewTime VARCHAR(255)
-    );
-  ```
-
-   You may load the dataset to your database as follow:
-   ```
-    LOAD DATA INFILE '/var/lib/mysql-files/kindle_reviews_formatted.json' 
-    INTO TABLE kindle_reviews
-    FIELDS TERMINATED BY ',' 
-    ENCLOSED BY '"'
-    LINES TERMINATED BY '\n'
-    (reviewerID, asin, reviewerName, @helpful, reviewText, overall, summary, unixReviewTime, reviewTime)
-    SET helpful_positive = JSON_EXTRACT(@helpful, '$[0]'),
-    helpful_negative = JSON_EXTRACT(@helpful, '$[1]');
+       reviewerID VARCHAR(255),
+       asin VARCHAR(255),
+       reviewerName VARCHAR(255),
+       helpful_positive INT,
+       helpful_negative INT, 
+       reviewText TEXT,
+       overall FLOAT,
+       summary VARCHAR(255),
+       unixReviewTime BIGINT,
+       reviewTime VARCHAR(255)
+   );
    ```
 
-3. Configure the database connection:
-   - Open the `analysis.py` file.
-   - Modify the following variables with your database connection details:
-     - `db_user`: MySQL database username
-     - `db_password`: MySQL database password
-     - `db_host`: MySQL database host
-     - `db_name`: MySQL database name
+8. Preprocess the JSON file:
+   - Download the Kindle reviews JSON file from Kaggle and place it in the project directory.
+   - Run the preprocessing script to format the JSON file:
+     ```
+     python preprocess_json.py
+     ```
 
-## Running the Analysis
+     This script will clean and format the JSON file, fixing any formatting errors and creating a new file named `kindle_reviews_formatted.json`.
 
-To run the analysis, execute the `analysis.py` script:
+9. Load the preprocessed JSON file into the MySQL database:
+   ```sql
+   LOAD DATA INFILE '/var/lib/mysql-files/kindle_reviews_formatted.json'
+   INTO TABLE kindle_reviews
+   FIELDS TERMINATED BY ',' 
+   ENCLOSED BY '"'
+   LINES TERMINATED BY '\n'
+   (reviewerID, asin, reviewerName, @helpful, reviewText, overall, summary, unixReviewTime, reviewTime)
+   SET helpful_positive = JSON_EXTRACT(@helpful, '$[0]'),
+       helpful_negative = JSON_EXTRACT(@helpful, '$[1]');
+   ```
 
-```
-python analysis.py
-```
+   Make sure the `kindle_reviews_formatted.json` file is accessible to the MySQL container.
 
-The script will establish a connection to the MySQL database, perform the analysis queries, and print the results to the console.
+10. Configure the database connection in the `analysis.py` script:
+    - Open the `analysis.py` file.
+    - Modify the following variables with your database connection details:
+      - `db_user`: MySQL database username
+      - `db_password`: MySQL database password
+      - `db_host`: MySQL database host (use the container name)
+      - `db_name`: MySQL database name
+
+11. Run the analysis script:
+    ```
+    python analysis.py
+    ```
+
+    This script will connect to the MySQL database, perform the analysis queries, and print the results.
 
 ## Analysis Examples
 
-The script includes the following analysis examples:
+The `analysis.py` script includes the following analysis examples:
 
 1. Top 10 reviewers by number of reviews:
    - Retrieves the top 10 reviewers based on the count of their reviews.
@@ -99,35 +125,22 @@ The script includes the following analysis examples:
 
 Feel free to modify the analysis queries or add new ones based on your specific requirements.
 
+## Contributing
 
-## Approach
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
 
-1. Data Parsing: Use Python to parse the JSON files and extract the relevant data into separate entities:
-   - Reviewers: Unique reviewer IDs and metadata
-   - Products: Kindle product details
-   - Reviews: Linking reviewers to the products they reviewed, along with review text, rating, helpful votes, etc.
+## License
 
-2. Schema Design: Design a normalized schema for the extracted data, creating separate tables for Reviewers, Products, and Reviews. Establish appropriate primary and foreign key relationships between the tables.
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
 
-3. Data Loading: Transform the parsed data into DataFrames matching the designed schema, and load them into a PostgreSQL database using SQLAlchemy.
+## Acknowledgments
 
-4. Analysis: Utilize SQL queries to perform various analyses on the restructured data, such as:
-   - Examining reviewer behavior over time
-   - Aggregating ratings and reviews per product
-   - Analyzing the distribution of review ratings
-   - Identifying most helpful reviews and their characteristics
-   - Exploring time-based trends in product popularity
+- The Amazon Kindle reviews dataset is sourced from Kaggle.
+- Thanks to the open-source community for the libraries and tools used in this project.
 
+## Link to the Dataset
 
-## Usage
-
-1. Clone the repository.
-2. Install the required Python libraries.
-3. Set up a PostgreSQL database and update the database connection details in the code.
-4. Place the Amazon Kindle reviews JSON files in the designated directory.
-5. Run the data parsing and loading script to process the JSON files and load the data into the database.
-6. Use SQL queries to perform the desired analyses on the restructured data.
-
+https://www.kaggle.com/datasets/bharadwaj6/kindle-reviews/data
 ## Contributors
 
 - Ying Liu @598790089
