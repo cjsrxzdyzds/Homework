@@ -9,11 +9,6 @@ Database Translation – Restructuring and analyzing Amazon Kindle reviews datas
 
 The dataset used is the Amazon Kindle reviews dataset in JSON format, available from Kaggle. It contains information about Kindle products, reviewers, and the reviews themselves.
 
-```markdown
-# Kindle Reviews Analysis
-
-This project performs an analysis of Kindle reviews data stored in a MySQL database. The analysis includes examples such as finding the top reviewers, calculating average ratings per product, and retrieving reviews with the most helpful votes.
-
 ## Prerequisites
 
 - Python 3.x
@@ -81,20 +76,6 @@ The script includes the following analysis examples:
 
 Feel free to modify the analysis queries or add new ones based on your specific requirements.
 
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-```
-
-You can save this README file as `README.md` in your project repository. Make sure to update the file with your own project details, such as the repository URL, database connection instructions, and any additional information specific to your project.
-
-The README file provides an overview of your project, instructions for setting up the environment, running the analysis, and information about the analysis examples included in the script. It also includes sections for contributing and licensing.
-
-Feel free to customize the README file based on your project's needs and add any additional sections or information that you think would be helpful for users or contributors.
 
 ## Approach
 
@@ -114,11 +95,6 @@ Feel free to customize the README file based on your project's needs and add any
    - Identifying most helpful reviews and their characteristics
    - Exploring time-based trends in product popularity
 
-## Requirements
-
-- Python 3.x
-- PostgreSQL
-- Python libraries: json, pandas, sqlalchemy
 
 ## Usage
 
