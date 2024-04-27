@@ -111,14 +111,14 @@ The dataset used is the Amazon Kindle reviews dataset in JSON format, available 
 
 12. Run the analysis script:
     ```
-    python analysis.py
+    python proposed_analysis.py
     ```
 
     This script will connect to the MySQL database, perform the analysis queries, and print the results.
 
 ## Analysis Examples
 
-The `analysis.py` script includes the following analysis examples:
+The `proposed_analysis.py` script includes the following analysis examples:
 
 1. Top 10 reviewers by number of reviews:
    - Retrieves the top 10 reviewers based on the count of their reviews.
